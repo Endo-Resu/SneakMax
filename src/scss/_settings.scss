@@ -75,3 +75,19 @@ a {
   grid-template-columns: repeat(12, 1fr);
   gap: var(--grid-gap);
 }
+
+.btn {
+  border-radius: 4px;
+  padding: 22px 47px;
+  font: var(--middle-font-sm);
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+
+  &--primary {
+    color: var(--color-white);
+    background-color: var(--color-accent);
+
+    &:hover {
+      background-color: var(--color-accent-hover);
+    }
+  }
+}
