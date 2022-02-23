@@ -70,6 +70,17 @@ a {
   outline: none;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0 0 0 0);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -99,6 +110,19 @@ a {
       background-color: var(--color-main-hover);
     }
   }
+
+  &--third {
+    border: 1px solid var(--color-main);
+    padding: 13px 45px;
+    color: var(--color-main);
+    background: transparent;
+
+    &:hover {
+      border: 1px solid var(--color-main);
+      color: var(--color-white);
+      background-color: var(--color-main);
+    }
+  }
 }
 
 .title {
@@ -112,6 +136,7 @@ a {
 
 .custom-checkbox {
   @include custom-checkbox;
+
 
   &__content {
     padding-right: 25px;
