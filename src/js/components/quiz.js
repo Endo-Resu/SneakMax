@@ -21,19 +21,15 @@ const quizData = [{
     {
       answer_title: "кеды",
       type: "checkbox"
-    },
-    {
-      answer_title: "кеды",
-      type: "checkbox"
-    },
+    }
   ]
 },
   {
     number: 2,
-    title: "Какой размер Вам подойдет?",
+    title: "Какой размер вам подойдет?",
     answer_alias: "size",
     answers: [{
-      answer_title: "менее 36",
+      answer_title: "Менее 36",
       type: "checkbox"
     },
       {
@@ -51,7 +47,7 @@ const quizData = [{
       {
         answer_title: "45 и больше",
         type: "checkbox"
-      },
+      }
     ]
   },
   {
@@ -59,11 +55,11 @@ const quizData = [{
     title: "Уточните какие-либо моменты",
     answer_alias: "message",
     answers: [{
-      answer_title: "Введите телефон",
+      answer_title: "Введите сообщение",
       type: "textarea"
     },
     ]
-  },
+  }
 ];
 
 const quizTemplate = (data = [], dataLength = 0, options) => {
@@ -73,41 +69,42 @@ const quizTemplate = (data = [], dataLength = 0, options) => {
 
     if (item.type === 'checkbox') {
       return `
-      <li class="quiz-question__item">
-        <img src="img/sneaker.jpg" alt="">
-        <label class="custom-checkbox quiz-question__label">
-          <input type="${item.type}" class="custom-checkbox__field quiz-question__answer" data-valid="false" name="${data.answer_alias}" ${item.type == 'text' ? 'placeholder="Введите ваш вариант"' : ''} value="${item.type !== 'text' ? item.answer_title : ''}">
-          <span class="custom-checkbox__content">${item.answer_title}</span>
-        </label>
-			</li>
-		`;
+        <li class="quiz-question__item">
+          <img src="img/sneaker.jpg" alt="">
+          <label class="custom-checkbox quiz-question__label">
+            <input type="${item.type}" class="custom-checkbox__field quiz-question__answer" data-valid="false" name="${data.answer_alias}" ${item.type == 'text' ? 'placeholder="Введите ваш вариант"' : ''} value="${item.type !== 'text' ? item.answer_title : ''}">
+            <span class="custom-checkbox__content">${item.answer_title}</span>
+          </label>
+        </li>
+      `;
     } else if (item.type === 'textarea') {
       return `
-      <label class="quiz-question__label">
-        <textarea placeholder="${item.answer_title}" class="quiz-question__message"></textarea>
-      </label>
+        <label class="quiz-question__label">
+          <textarea placeholder="${item.answer_title}" class="quiz-question__message"></textarea>
+        </label>
       `;
     } else {
       return `
-      <label class="quiz-question__label">
-        <input type="${item.type}" data-valid="false" class="quiz-question__answer" name="${data.answer_alias} ${item.type == 'text' ? 'placeholder="Введите ваш вариант"' : ''} value="${item.type !== 'text' ? item.answer_title : ''}">
-        <span>${item.answer_title}</span>
-      </label>
+        <label class="quiz-question__label">
+          <input type="${item.type}" data-valid="false" class="quiz-question__answer" name="${data.answer_alias}" ${item.type == 'text' ? 'placeholder="Введите ваш вариант"' : ''} value="${item.type !== 'text' ? item.answer_title : ''}">
+          <span>${item.answer_title}</span>
+        </label>
       `;
     }
+
   });
 
   return `
-			<div class="quiz-question">
-				<h3 class="quiz-question__title">${title}</h3>
-				<ul class="quiz-question__answers list-reset">
-					${answers.join('')}
-				</ul>
-				<div class="quiz-bottom">
-				    <div class="quiz-question__count">${number} из ${dataLength}</div>
-				    <button type="button" class="btn btn-reset btn--third quiz-question__btn" data-next-btn>${nextBtnText}</button>
-        </div>
-			</div>
+    <div class="quiz-question">
+      <h3 class="quiz-question__title">${title}</h3>
+      <ul class="quiz-question__answers list-reset">
+        ${answers.join('')}
+      </ul>
+      <div class="quiz-bottom">
+        <div class="quiz-question__count">${number} из ${dataLength}</div>
+        <button type="button" class="btn btn-reset btn--thirdly quiz-question__btn" data-next-btn>${nextBtnText}</button>
+      </div>
+    </div>
 	`
 };
 
@@ -125,12 +122,10 @@ class Quiz {
   }
 
   init() {
-    console.log('init!');
     this.$el.innerHTML = quizTemplate(this.data[this.counter], this.dataLength, this.options);
   }
 
   nextQuestion() {
-    console.log('next question!');
 
     if (this.valid()) {
       if (this.counter + 1 < this.dataLength) {
@@ -138,19 +133,16 @@ class Quiz {
         this.$el.innerHTML = quizTemplate(this.data[this.counter], this.dataLength, this.options);
 
         if ((this.counter + 1 == this.dataLength)) {
+
         }
       } else {
-        console.log('А все! конец!');
         document.querySelector('.quiz-layout').style.display = 'none';
         document.querySelector('.asd').style.display = 'block';
       }
-    } else {
-      console.log('Не валидно!')
     }
   }
 
   events() {
-    console.log('events!')
     this.$el.addEventListener('click', (e) => {
       if (e.target == document.querySelector('[data-next-btn]')) {
         this.addToSend();
@@ -184,13 +176,14 @@ class Quiz {
     if (textarea) {
       if (textarea.value.length > 0) {
         isValid = true;
-        return isValid
+        return isValid;
       }
     }
 
-    let elements = this.$el.querySelectorAll('input')
+
+    let elements = this.$el.querySelectorAll('input');
     elements.forEach(el => {
-      switch (el.nodeName) {
+      switch(el.nodeName) {
         case 'INPUT':
           switch (el.type) {
             case 'text':
