@@ -1,5 +1,6 @@
 const catalogList = document.querySelector('.catalog-list');
 const loadMore = document.querySelector('.catalog__more');
+const prodModal = document.querySelector('[data-graph-target="prod-modal"]')
 let prodQuantity = 6;
 let dataLength = '';
 
@@ -28,7 +29,7 @@ if (catalogList) {
                   <div class="product__image">
                     <img src="${item.mainImage}" alt="${item.title}">
                     <div class="product__btns">
-                      <button class="btn-reset product__btn" data.id="${item.id}" aria-label="Показать информация о товаре">
+                      <button class="btn-reset product__btn" data-graph-path="prod-modal" data.id="${item.id}" aria-label="Показать информация о товаре">
                         <svg>
                           <use xlink:href="img/sprite.svg#eye"></use>
                         </svg>
@@ -49,14 +50,40 @@ if (catalogList) {
         }
       })
     .then(() => {
+
       const productTitle = document.querySelectorAll('.product__title');
       productTitle.forEach(el => {
         $clamp(el, {clamp: '22px'});
       });
+
+
+      const modal = new GraphModal({
+        isOpen: (modal) => {
+          const openBtnId = modal.previousActiveElement.dataset.id;
+          loadModalData(openBtnId);
+        },
+      });
+
     })
   };
 
   loadProducts(prodQuantity);
+
+  const loadModalData = (id) => {
+    fetch('../data/data.json')
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        prodModal.innerHTML = "";
+
+        for (let dataItem of data) {
+          if (dataItem.id === id) {
+            console.log(dataItem)
+          }
+        }
+      });
+  };
 
   loadMore.addEventListener('click', (e) => {
     prodQuantity = prodQuantity + 3;
