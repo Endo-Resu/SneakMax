@@ -1,35 +1,37 @@
 const catalogList = document.querySelector('.catalog-list');
-const loadMore = document.querySelector('.catalog__more');
-const prodModal = document.querySelector('[data-graph-target="prod-modal"]')
-let prodQuantity = 6;
-let dataLength = '';
+const catalogMore = document.querySelector('.catalog__more');
+const prodModal = document.querySelector('[data-graph-target="prod-modal"]');
+let prodQuantity = 5;
+let dataLength = null;
 
 const normalPrice = (str) => {
   return String(str).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
 };
 
 if (catalogList) {
-  const loadProducts = (quantity = 6) => {
+  const loadProducts = (quantity = 5) => {
     fetch('../data/data.json')
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         dataLength = data.length;
+
         catalogList.innerHTML = '';
 
-        for (let i = 0; i < dataLength; i++) {
+        for (let i =0; i < dataLength; i++) {
           if (i < quantity) {
             let item = data[i];
-            console.log(item)
+            console.log(item);
 
             catalogList.innerHTML += `
+
               <li class="catalog-list__item">
                 <article class="product">
                   <div class="product__image">
                     <img src="${item.mainImage}" alt="${item.title}">
                     <div class="product__btns">
-                      <button class="btn-reset product__btn" data-graph-path="prod-modal" data.id="${item.id}" aria-label="Показать информация о товаре">
+                      <button class="btn-reset product__btn" data-graph-path="prod-modal" data-id="${item.id}" aria-label="Показать информация о товаре">
                         <svg>
                           <use xlink:href="img/sprite.svg#eye"></use>
                         </svg>
@@ -45,56 +47,57 @@ if (catalogList) {
                   <span class="product__price">${normalPrice(item.price)} р</span>
                 </article>
               </li>
+
             `;
           }
         }
       })
-    .then(() => {
+      .then(() => {
 
-      const productTitle = document.querySelectorAll('.product__title');
-      productTitle.forEach(el => {
-        $clamp(el, {clamp: '22px'});
+        const productTitle = document.querySelectorAll('.product__title');
+        productTitle.forEach(el => {
+          $clamp(el, {clamp: '23px'});
+        });
+
+
+        const modal = new GraphModal({
+          isOpen: (modal) => {
+            const openBtnId = modal.previousActiveElement.dataset.id;
+
+            loadModalData(openBtnId);
+          },
+        });
+
       });
-
-
-      const modal = new GraphModal({
-        isOpen: (modal) => {
-          const openBtnId = modal.previousActiveElement.dataset.id;
-          loadModalData(openBtnId);
-        },
-      });
-
-    })
   };
 
   loadProducts(prodQuantity);
 
-  const loadModalData = (id) => {
+  const loadModalData = (id = 1) => {
     fetch('../data/data.json')
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        prodModal.innerHTML = "";
+        prodModal.innerHTML = '';
 
         for (let dataItem of data) {
-          if (dataItem.id === id) {
-            console.log(dataItem)
+          if (dataItem.id == id) {
+            console.log(dataItem);
           }
         }
       });
   };
 
-  loadMore.addEventListener('click', (e) => {
+  catalogMore.addEventListener('click', (e) => {
     prodQuantity = prodQuantity + 3;
 
     loadProducts(prodQuantity);
 
     if (prodQuantity >= dataLength) {
-      loadMore.style.display = 'none';
+      catalogMore.style.display = 'none';
     } else {
-      loadMore.style.display = 'block';
+      catalogMore.style.display = 'block';
     }
-  })
+  });
 }
-
