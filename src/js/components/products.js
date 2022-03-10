@@ -1,6 +1,6 @@
 const catalogList = document.querySelector('.catalog-list');
 const catalogMore = document.querySelector('.catalog__more');
-const prodModal = document.querySelector('[data-graph-target="prod-modal"]');
+const prodModal = document.querySelector('[data-graph-target="prod-modal"] .modal-content');
 let prodQuantity = 5;
 let dataLength = null;
 
@@ -79,7 +79,7 @@ if (catalogList) {
         return response.json();
       })
       .then((data) => {
-        prodModal.innerHTML = '';
+        // prodModal.innerHTML = '';
 
         for (let dataItem of data) {
           if (dataItem.id == id) {
