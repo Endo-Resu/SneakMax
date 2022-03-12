@@ -8,6 +8,11 @@ const normalPrice = (str) => {
   return String(str).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
 };
 
+const prodSlider = new Swiper('.modal-slider__container', {
+  slidesPerView: 1,
+  spaceBetween: 20,
+});
+
 if (catalogList) {
   const loadProducts = (quantity = 5) => {
     fetch('../data/data.json')
@@ -65,6 +70,8 @@ if (catalogList) {
             const openBtnId = modal.previousActiveElement.dataset.id;
 
             loadModalData(openBtnId);
+
+            prodSlider.update();
           },
         });
 
